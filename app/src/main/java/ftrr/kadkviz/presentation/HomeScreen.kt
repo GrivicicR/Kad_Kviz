@@ -2,10 +2,22 @@ package ftrr.kadkviz.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ftrr.kadkviz.data.local.KvizEntity
 import ftrr.kadkviz.presentation.cards.KvizCard
 import ftrr.kadkviz.presentation.components.utils.PrijaviEkipuPopup
 import ftrr.kadkviz.ui.theme.primaryContainerLight
@@ -26,61 +37,90 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showRegistrationPopup by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getAllKviz()
+    }
+    val displayedItems = remember(searchQuery, state.triviaList) {
+        val listToFilter = state.triviaList
+
+        if (searchQuery.isBlank()) {
+            listToFilter
+        } else {
+            listToFilter.filter { kviz ->
+                kviz.name.contains(searchQuery, ignoreCase = true) || kviz.location.contains(
+                    searchQuery,
+                    ignoreCase = true
+                )
+            }
+        }
     }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(primaryContainerLight)
-            .padding(16.dp)
     ) {
-        val items = state.triviaList.ifEmpty { mockKvizList }
-
-        LazyColumn {
-            items(items) {
-                KvizCard(kviz = it,
-                    onApplyClick = {
-                        showRegistrationPopup = true
-                    }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                placeholder = { Text("Pretraži kvizove...") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "Search Icon",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                singleLine = true,
+                shape = RoundedCornerShape(28.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedLabelColor = MaterialTheme.colorScheme.primary,
+                    focusedContainerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.inverseOnSurface,
                 )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            if (displayedItems.isEmpty()) {
+                Text(
+                    if (searchQuery.isNotBlank()) "Nema rezultata za '$searchQuery'"
+                    else "Nema dostupnih kvizova."
+                )
+            } else {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(displayedItems, key = { it.id!! }) { kviz ->
+                        KvizCard(
+                            kviz = kviz,
+                            onApplyClick = {
+                                showRegistrationPopup = true
+                            }
+                        )
+                    }
+                }
             }
         }
-
-        if (showRegistrationPopup) PrijaviEkipuPopup {
-            showRegistrationPopup = false
+        if (showRegistrationPopup) {
+            PrijaviEkipuPopup(
+                onConfirm = { imeEkipe ->
+                    showRegistrationPopup = false
+                },
+                onDismiss = {
+                    showRegistrationPopup = false
+                }
+            )
         }
     }
 }
-
-val mockKvizList = listOf(
-    KvizEntity(
-        name = "Požeški Pub Kviz",
-        location = "Trg sv. Trojstva",
-        date = "12.06.",
-        time = "19:00",
-        description = "Pridružite nam se na uzbudljivom pub kvizu u srcu Požege! Provjerite svoje znanje i osvojite vrijedne nagrade.",
-        entryFee = "Besplatno",
-        teamSize = "2-5 članova"
-    ),
-    KvizEntity(
-        name = "Kviz u Azimutu",
-        location = "Obala omladinaca",
-        date = "13.06.",
-        time = "19:30",
-        description = "Tradicionalni kviz znanja u popularnom kafiću Azimut. Prijavite svoju ekipu na vrijeme!",
-        entryFee = "5 EUR po ekipi",
-        teamSize = "Max 4 člana"
-    ),
-    KvizEntity(
-        name = "KSFF Pub Kviz",
-        location = "Ivana Lučića 3",
-        date = "15.06.",
-        time = "20:00",
-        description = "Studentski pub kviz u organizaciji Kluba studenata filozofskog fakulteta. Pokaži što znaš!",
-        entryFee = "2 EUR po osobi",
-        teamSize = "Do 6 članova"
-    )
-)

@@ -1,9 +1,16 @@
 package ftrr.kadkviz.presentation
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -19,7 +26,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
 import ftrr.kadkviz.ui.theme.inverseSurfaceLight
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,62 +53,82 @@ fun KadKvizTopBar(
             }
         },
         actions = {
-            Log.d("TAG", "KadKvizTopBar: $currentDestination")
             if (currentDestination != "ftrr.kadkviz.presentation.navigation.LoginScreen") {
-                Box {
-                    IconButton(
-                        onClick = {
-                            menuExpanded = true
-                        }
-                    ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = {
+                        // TODO: Handle account icon click
+                        Log.d("TopBar", "Account Icon Clicked")
+                    }) {
                         Icon(
                             tint = MaterialTheme.colorScheme.primary,
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = ""
+                            imageVector = Icons.Filled.AccountCircle,
+                            contentDescription = "Račun"
                         )
                     }
 
-                    DropdownMenu(
-                        expanded = menuExpanded,
-                        onDismissRequest = { menuExpanded = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Pretraži Kviz") },
+                    Box {
+                        IconButton(
                             onClick = {
-                                onMenuItemClicked("Home")
-                                menuExpanded = false
+                                menuExpanded = true
                             }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Organiziraj Kviz") },
-                            onClick = {
-                                onMenuItemClicked("Organiziraj")
-                                menuExpanded = false
-                            }
-                        )
-//                        DropdownMenuItem(
-//                            text = { Text("Pretraga Kvizova") },
-//                            onClick = {
-//                                onMenuItemClicked("Pretraga")
-//                                menuExpanded = false
-//                            }
-//                        )
+                        ) {
+                            Icon(
+                                tint = MaterialTheme.colorScheme.primary,
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = "Izbornik"
+                            )
+                        }
 
-                        DropdownMenuItem(
-                            text = { Text("Odjava") },
-                            onClick = {
-                                onMenuItemClicked("Prijava")
-                                menuExpanded = false
-                            }
-                        )
+                        DropdownMenu(
+                            expanded = menuExpanded,
+                            onDismissRequest = { menuExpanded = false },
+                            modifier = Modifier.width(220.dp)
+                                .background(MaterialTheme.colorScheme.inverseOnSurface),
+                            offset = DpOffset(x=(-8).dp, y=6.dp)
 
-//                        DropdownMenuItem(
-//                            text = { Text("Registracija") },
-//                            onClick = {
-//                                onMenuItemClicked("Registracija")
-//                                menuExpanded = false
-//                            }
-//                        )
+
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Pretraži Kviz", style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                                onClick = {
+                                    onMenuItemClicked("Home")
+                                    menuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Organiziraj Kviz", style = MaterialTheme.typography.titleMedium,
+                                       color= MaterialTheme.colorScheme.onSurfaceVariant) },
+                                onClick = {
+                                    onMenuItemClicked("Organiziraj")
+                                    menuExpanded = false
+                                }
+                            )
+                            //                        DropdownMenuItem(
+                            //                            text = { Text("Pretraga Kvizova") },
+                            //                            onClick = {
+                            //                                onMenuItemClicked("Pretraga")
+                            //                                menuExpanded = false
+                            //                            }
+                            //                        )
+
+                            DropdownMenuItem(
+                                text = { Text("Odjava", style = MaterialTheme.typography.titleMedium,
+                                    color= MaterialTheme.colorScheme.onSurfaceVariant) },
+                                onClick = {
+                                    onMenuItemClicked("Prijava")
+                                    menuExpanded = false
+                                }
+                            )
+
+                            //                        DropdownMenuItem(
+                            //                            text = { Text("Registracija") },
+                            //                            onClick = {
+                            //                                onMenuItemClicked("Registracija")
+                            //                                menuExpanded = false
+                            //                            }
+                            //                        )
+                        }
                     }
                 }
             }
