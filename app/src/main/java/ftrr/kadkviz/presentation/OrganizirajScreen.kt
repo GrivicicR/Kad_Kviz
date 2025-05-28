@@ -23,14 +23,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ftrr.kadkviz.data.local.KvizEntity
 import ftrr.kadkviz.ui.theme.inverseSurfaceLight
 import ftrr.kadkviz.ui.theme.primaryContainerLight
 
 @Composable
 fun OrganizirajScreen(
-    onSendClick: () -> Unit
+    onSendClick: (KvizEntity) -> Unit,
+    viewModel: KadKvizViewModel
 ) {
     var imeKviza by remember { mutableStateOf("") }
     var lokacija by remember { mutableStateOf("") }
@@ -49,8 +50,10 @@ fun OrganizirajScreen(
             .verticalScroll(scrollState),
         contentAlignment = Alignment.Center
     ) {
-        Column(modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = "ORGANIZIRAJ KVIZ",
                 modifier = Modifier.padding(16.dp),
@@ -159,7 +162,16 @@ fun OrganizirajScreen(
                     Spacer(modifier = Modifier.size(24.dp))
 
                     Button(
-                        onClick = { onSendClick() },
+                        onClick = {
+                            onSendClick(
+                                KvizEntity(
+                                    name = imeKviza,
+                                    location = lokacija,
+                                    date = datum,
+                                    time = vrijeme
+                                )
+                            )
+                        },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         shape = RoundedCornerShape(8.dp)
                     ) {

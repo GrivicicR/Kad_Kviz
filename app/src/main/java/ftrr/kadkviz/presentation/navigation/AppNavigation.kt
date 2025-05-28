@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ftrr.kadkviz.presentation.HomeScreen
+import ftrr.kadkviz.presentation.KadKvizViewModel
 import ftrr.kadkviz.presentation.LoginScreen
 import ftrr.kadkviz.presentation.OrganizirajScreen
 import ftrr.kadkviz.presentation.PretragaScreen
@@ -13,7 +14,8 @@ import ftrr.kadkviz.presentation.PretragaScreen
 @Composable
 fun AppNavigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: KadKvizViewModel
 ) {
     NavHost(
         modifier = modifier,
@@ -21,7 +23,9 @@ fun AppNavigation(
         startDestination = HomeScreen
     ) {
         composable<HomeScreen> {
-            HomeScreen()
+            HomeScreen(
+                viewModel = viewModel
+            )
         }
 
         composable<LoginScreen> {
@@ -33,7 +37,10 @@ fun AppNavigation(
 
         composable<OrganizirajScreen> {
             OrganizirajScreen(
-                onSendClick = {}
+                onSendClick = {
+                    viewModel.insertKviz(it)
+                },
+                viewModel = viewModel
             )
         }
 

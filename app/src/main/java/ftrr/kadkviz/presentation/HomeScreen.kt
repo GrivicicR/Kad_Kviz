@@ -7,22 +7,35 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ftrr.kadkviz.Kviz
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ftrr.kadkviz.data.local.KvizEntity
 import ftrr.kadkviz.presentation.cards.KvizCard
 import ftrr.kadkviz.ui.theme.primaryContainerLight
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: KadKvizViewModel
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getAllKviz()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(primaryContainerLight)
             .padding(16.dp)
     ) {
+        val items = state.triviaList.ifEmpty { mockKvizList }
+
         LazyColumn {
-            items(mockKvizList) {
+            items(items) {
                 KvizCard(kviz = it)
             }
         }
@@ -30,7 +43,7 @@ fun HomeScreen() {
 }
 
 val mockKvizList = listOf(
-    Kviz(
+    KvizEntity(
         name = "Požeški Pub Kviz",
         location = "Trg sv. Trojstva",
         date = "12.06.",
@@ -39,7 +52,7 @@ val mockKvizList = listOf(
         entryFee = "Besplatno",
         teamSize = "2-5 članova"
     ),
-    Kviz(
+    KvizEntity(
         name = "Kviz u Azimutu",
         location = "Obala omladinaca",
         date = "13.06.",
@@ -48,7 +61,7 @@ val mockKvizList = listOf(
         entryFee = "5 EUR po ekipi",
         teamSize = "Max 4 člana"
     ),
-    Kviz(
+    KvizEntity(
         name = "KSFF Pub Kviz",
         location = "Ivana Lučića 3",
         date = "15.06.",

@@ -35,12 +35,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import ftrr.kadkviz.Kviz
+import ftrr.kadkviz.data.local.KvizEntity
 import ftrr.kadkviz.ui.theme.inverseSurfaceLight
 
 @Composable
 fun KvizCard(
-    kviz: Kviz
+    kviz: KvizEntity
 ) {
     var expanded by remember { mutableStateOf(false) }
 

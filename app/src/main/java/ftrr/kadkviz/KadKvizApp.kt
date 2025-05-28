@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import ftrr.kadkviz.presentation.KadKvizTopBar
+import ftrr.kadkviz.presentation.KadKvizViewModel
 import ftrr.kadkviz.presentation.navigation.AppNavigation
 import ftrr.kadkviz.presentation.navigation.HomeScreen
 import ftrr.kadkviz.presentation.navigation.LoginScreen
@@ -17,6 +19,7 @@ import ftrr.kadkviz.ui.theme.KadKvizTheme
 @Composable
 fun KadKvizApp() {
     KadKvizTheme {
+        val viewModel = KadKvizViewModel(context = LocalContext.current)
         val navController = rememberNavController()
 
         Scaffold(
@@ -40,7 +43,8 @@ fun KadKvizApp() {
         { innerPadding ->
             AppNavigation(
                 navController = navController,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(innerPadding),
+                viewModel = viewModel
             )
         }
     }
