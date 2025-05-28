@@ -9,11 +9,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ftrr.kadkviz.data.local.KvizEntity
 import ftrr.kadkviz.presentation.cards.KvizCard
+import ftrr.kadkviz.presentation.components.utils.PrijaviEkipuPopup
 import ftrr.kadkviz.ui.theme.primaryContainerLight
 
 @Composable
@@ -21,6 +25,7 @@ fun HomeScreen(
     viewModel: KadKvizViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showRegistrationPopup by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getAllKviz()
@@ -36,8 +41,16 @@ fun HomeScreen(
 
         LazyColumn {
             items(items) {
-                KvizCard(kviz = it)
+                KvizCard(kviz = it,
+                    onApplyClick = {
+                        showRegistrationPopup = true
+                    }
+                )
             }
+        }
+
+        if (showRegistrationPopup) PrijaviEkipuPopup {
+            showRegistrationPopup = false
         }
     }
 }

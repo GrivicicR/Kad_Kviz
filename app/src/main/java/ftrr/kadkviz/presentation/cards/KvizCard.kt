@@ -40,7 +40,8 @@ import ftrr.kadkviz.ui.theme.inverseSurfaceLight
 
 @Composable
 fun KvizCard(
-    kviz: KvizEntity
+    kviz: KvizEntity,
+    onApplyClick: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -132,7 +133,7 @@ fun KvizCard(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Button(
-                        onClick = { /* TODO: Handle button click */ },
+                        onClick = { onApplyClick() },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         shape = RoundedCornerShape(8.dp),
                     ) {

@@ -66,7 +66,7 @@ fun LoginScreen(
                     .padding(16.dp),
             ) {
                 Text(
-                    text = "e-mail:"
+                    text = "Korisničko ime:"
                 )
 
                 OutlinedTextField(

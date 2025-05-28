@@ -1,5 +1,6 @@
 package ftrr.kadkviz.presentation
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
@@ -25,73 +26,79 @@ import ftrr.kadkviz.ui.theme.inverseSurfaceLight
 @Composable
 fun KadKvizTopBar(
     onHomeClick: () -> Unit,
-    onMenuItemClicked: (String) -> Unit
+    onMenuItemClicked: (String) -> Unit,
+    currentDestination: String?
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
 
     TopAppBar(
         title = {
-            Text(
-                text = "KAD KVIZ",
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { onHomeClick() }
-            )
+            if (currentDestination != "ftrr.kadkviz.presentation.navigation.LoginScreen") {
+                Text(
+                    text = "KAD KVIZ",
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable { onHomeClick() }
+                )
+            }
         },
         actions = {
-            Box {
-                IconButton(
-                    onClick = {
-                        menuExpanded = true
+            Log.d("TAG", "KadKvizTopBar: $currentDestination")
+            if (currentDestination != "ftrr.kadkviz.presentation.navigation.LoginScreen") {
+                Box {
+                    IconButton(
+                        onClick = {
+                            menuExpanded = true
+                        }
+                    ) {
+                        Icon(
+                            tint = MaterialTheme.colorScheme.primary,
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = ""
+                        )
                     }
-                ) {
-                    Icon(
-                        tint = MaterialTheme.colorScheme.primary,
-                        imageVector = Icons.Filled.Menu,
-                        contentDescription = ""
-                    )
-                }
 
-                DropdownMenu(
-                    expanded = menuExpanded,
-                    onDismissRequest = { menuExpanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Home") },
-                        onClick = {
-                            onMenuItemClicked("Home")
-                            menuExpanded = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Organiziraj Kviz") },
-                        onClick = {
-                            onMenuItemClicked("Organiziraj")
-                            menuExpanded = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Pretraga Kvizova") },
-                        onClick = {
-                            onMenuItemClicked("Pretraga")
-                            menuExpanded = false
-                        }
-                    )
+                    DropdownMenu(
+                        expanded = menuExpanded,
+                        onDismissRequest = { menuExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Pretraži Kviz") },
+                            onClick = {
+                                onMenuItemClicked("Home")
+                                menuExpanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Organiziraj Kviz") },
+                            onClick = {
+                                onMenuItemClicked("Organiziraj")
+                                menuExpanded = false
+                            }
+                        )
+//                        DropdownMenuItem(
+//                            text = { Text("Pretraga Kvizova") },
+//                            onClick = {
+//                                onMenuItemClicked("Pretraga")
+//                                menuExpanded = false
+//                            }
+//                        )
 
-                    DropdownMenuItem(
-                        text = { Text("Prijava") },
-                        onClick = {
-                            onMenuItemClicked("Prijava")
-                            menuExpanded = false
-                        }
-                    )
+                        DropdownMenuItem(
+                            text = { Text("Odjava") },
+                            onClick = {
+                                onMenuItemClicked("Prijava")
+                                menuExpanded = false
+                            }
+                        )
 
-                    DropdownMenuItem(
-                        text = { Text("Registracija") },
-                        onClick = {
-                            onMenuItemClicked("Registracija")
-                            menuExpanded = false
-                        }
-                    )
+//                        DropdownMenuItem(
+//                            text = { Text("Registracija") },
+//                            onClick = {
+//                                onMenuItemClicked("Registracija")
+//                                menuExpanded = false
+//                            }
+//                        )
+                    }
                 }
             }
         },

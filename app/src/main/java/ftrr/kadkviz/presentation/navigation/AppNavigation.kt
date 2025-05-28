@@ -20,7 +20,7 @@ fun AppNavigation(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = HomeScreen
+        startDestination = LoginScreen
     ) {
         composable<HomeScreen> {
             HomeScreen(
@@ -39,6 +39,7 @@ fun AppNavigation(
             OrganizirajScreen(
                 onSendClick = {
                     viewModel.insertKviz(it)
+                    navController.navigate(route = HomeScreen)
                 },
                 viewModel = viewModel
             )
