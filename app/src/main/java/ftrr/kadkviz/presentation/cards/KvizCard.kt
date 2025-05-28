@@ -76,8 +76,8 @@ fun KvizCard(
                 ) {
                     Text(
                         text = kviz.date,
-                        style = MaterialTheme.typography.headlineLarge,
-                        maxLines = 2,
+                        style = MaterialTheme.typography.headlineMedium,
+                        maxLines = 1,
                         modifier = Modifier.weight(0.3f)
                     )
 
