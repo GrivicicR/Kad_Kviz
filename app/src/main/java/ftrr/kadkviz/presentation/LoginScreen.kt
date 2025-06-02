@@ -21,16 +21,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ftrr.kadkviz.ui.theme.inverseSurfaceLight
-import ftrr.kadkviz.ui.theme.onBackgroundLight
-import ftrr.kadkviz.ui.theme.onPrimaryContainerLight
-import ftrr.kadkviz.ui.theme.onSecondaryContainerLight
 import ftrr.kadkviz.ui.theme.primaryContainerLight
-import ftrr.kadkviz.ui.theme.secondaryContainerLight
 
 @Composable
 fun LoginScreen(
@@ -45,65 +43,78 @@ fun LoginScreen(
             .fillMaxSize()
             .background(primaryContainerLight),
         contentAlignment = Alignment.Center
-    ) { Column {
-        Text(
-            text = "PRIJAVA",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            style = MaterialTheme.typography.headlineLarge,
-            color = inverseSurfaceLight,
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(Modifier.size(48.dp))
-
-        Card(
+    ) {
+        Column(
             modifier = Modifier
-                .padding(start = 24.dp, end = 24.dp),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Column(
-                modifier = Modifier.background(inverseSurfaceLight)
+                .fillMaxSize()
+                .background(primaryContainerLight)
+        )
+        {
+            Spacer(Modifier.size(48.dp))
+
+            Text(
+                text = "PRIJAVA",
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(16.dp),
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                fontSize = 40.sp,
+                color = inverseSurfaceLight,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(Modifier.size(48.dp))
+
+            Card(
+                modifier = Modifier
+                    .padding(start = 24.dp, end = 24.dp),
+                shape = RoundedCornerShape(16.dp)
             ) {
-                Text(
-                    text = "Korisničko ime:"
-                )
-
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp)
-                )
-
-                Spacer(modifier = Modifier.size(24.dp))
-
-                Text(
-                    text = "Lozinka:"
-                )
-
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
-                    visualTransformation = PasswordVisualTransformation()
-                )
-
-                Spacer(modifier = Modifier.size(48.dp))
-
-                Button(
-                    onClick = { onLoginClick() },
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(8.dp)
+                Column(
+                    modifier = Modifier
+                        .background(inverseSurfaceLight)
+                        .padding(16.dp),
                 ) {
                     Text(
-                        text = "Pošalji"
+                        text = "Korisničko ime:"
                     )
+
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+
+                    Spacer(modifier = Modifier.size(24.dp))
+
+                    Text(
+                        text = "Lozinka:"
+                    )
+
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(8.dp),
+                        visualTransformation = PasswordVisualTransformation()
+                    )
+
+                    Spacer(modifier = Modifier.size(48.dp))
+
+                    Button(
+                        onClick = { onLoginClick() },
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(
+                            text = "Pošalji"
+                        )
+                    }
                 }
             }
         }
-    }
 
     }
 }
