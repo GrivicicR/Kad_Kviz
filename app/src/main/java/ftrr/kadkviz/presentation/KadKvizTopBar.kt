@@ -1,14 +1,11 @@
 package ftrr.kadkviz.presentation
 
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
@@ -28,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import ftrr.kadkviz.ui.theme.inverseSurfaceLight
@@ -38,6 +34,7 @@ import ftrr.kadkviz.ui.theme.inverseSurfaceLight
 fun KadKvizTopBar(
     onHomeClick: () -> Unit,
     onMenuItemClicked: (String) -> Unit,
+    onAccountClick: () -> Unit,
     currentDestination: String?
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
@@ -62,7 +59,10 @@ fun KadKvizTopBar(
                         Icon(
                             tint = MaterialTheme.colorScheme.primary,
                             imageVector = Icons.Filled.AccountCircle,
-                            contentDescription = "Račun"
+                            contentDescription = "Račun",
+                            modifier = Modifier.clickable {
+                                onAccountClick()
+                            }
                         )
                     }
 
@@ -82,23 +82,34 @@ fun KadKvizTopBar(
                         DropdownMenu(
                             expanded = menuExpanded,
                             onDismissRequest = { menuExpanded = false },
-                            modifier = Modifier.width(220.dp)
+                            modifier = Modifier
+                                .width(220.dp)
                                 .background(MaterialTheme.colorScheme.inverseOnSurface),
-                            offset = DpOffset(x=(-8).dp, y=6.dp)
+                            offset = DpOffset(x = (-8).dp, y = 6.dp)
 
 
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Pretraži Kviz", style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                                text = {
+                                    Text(
+                                        "Pretraži Kviz",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                },
                                 onClick = {
                                     onMenuItemClicked("Home")
                                     menuExpanded = false
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Organiziraj Kviz", style = MaterialTheme.typography.titleMedium,
-                                       color= MaterialTheme.colorScheme.onSurfaceVariant) },
+                                text = {
+                                    Text(
+                                        "Organiziraj Kviz",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                },
                                 onClick = {
                                     onMenuItemClicked("Organiziraj")
                                     menuExpanded = false
@@ -113,8 +124,12 @@ fun KadKvizTopBar(
                             //                        )
 
                             DropdownMenuItem(
-                                text = { Text("Odjava", style = MaterialTheme.typography.titleMedium,
-                                    color= MaterialTheme.colorScheme.onSurfaceVariant) },
+                                text = {
+                                    Text(
+                                        "Odjava", style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                },
                                 onClick = {
                                     onMenuItemClicked("Prijava")
                                     menuExpanded = false

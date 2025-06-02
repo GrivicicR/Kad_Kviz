@@ -5,10 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ftrr.kadkviz.presentation.HomeScreen
+import ftrr.kadkviz.presentation.home.HomeScreen
 import ftrr.kadkviz.presentation.KadKvizViewModel
-import ftrr.kadkviz.presentation.OrganizirajScreen
-import ftrr.kadkviz.presentation.PretragaScreen
+import ftrr.kadkviz.presentation.organiziraj.OrganizirajScreen
+import ftrr.kadkviz.presentation.home.PretragaScreen
 import ftrr.kadkviz.presentation.login.LoginScreen
 import ftrr.kadkviz.presentation.login.LoginViewModel
 

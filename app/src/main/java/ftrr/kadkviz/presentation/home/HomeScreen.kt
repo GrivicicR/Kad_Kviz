@@ -1,4 +1,4 @@
-package ftrr.kadkviz.presentation
+package ftrr.kadkviz.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ftrr.kadkviz.presentation.KadKvizViewModel
 import ftrr.kadkviz.presentation.cards.KvizCard
 import ftrr.kadkviz.presentation.components.utils.PrijaviEkipuPopup
 import ftrr.kadkviz.ui.theme.primaryContainerLight
@@ -42,6 +43,7 @@ fun HomeScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.getAllKviz()
     }
+
     val displayedItems = remember(searchQuery, state.triviaList) {
         val listToFilter = state.triviaList
 

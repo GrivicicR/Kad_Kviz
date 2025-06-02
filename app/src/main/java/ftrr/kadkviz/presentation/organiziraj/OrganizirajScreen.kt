@@ -1,4 +1,4 @@
-package ftrr.kadkviz.presentation
+package ftrr.kadkviz.presentation.organiziraj
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ftrr.kadkviz.data.local.KvizEntity
+import ftrr.kadkviz.presentation.KadKvizViewModel
 import ftrr.kadkviz.presentation.components.utils.OrganizirajPopup
 import ftrr.kadkviz.ui.theme.inverseSurfaceLight
 import ftrr.kadkviz.ui.theme.primaryContainerLight
@@ -123,10 +124,6 @@ fun OrganizirajScreen(
                     TextButton(onClick = { openDialog = false }) { Text("Cancel") }
                 }
             ) {
-                // The verticalScroll will allow scrolling to show the entire month in case there is not
-                // enough horizontal space (for example, when in landscape mode).
-                // Note that it's still currently recommended to use a DisplayMode.Input at the state in
-                // those cases.
                 DatePicker(
                     state = datePickerState,
                     modifier = Modifier.verticalScroll(rememberScrollState())

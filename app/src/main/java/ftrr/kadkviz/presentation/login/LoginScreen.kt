@@ -2,6 +2,7 @@ package ftrr.kadkviz.presentation.login
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +44,8 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    var displayRegister by remember { mutableStateOf(false) }
 
     val uiState by viewModel.loginState.collectAsStateWithLifecycle()
 
@@ -70,6 +72,133 @@ fun LoginScreen(
         }
     }
 
+    if (displayRegister) {
+        RegisterScreen {
+            viewModel.signUpWithEmailPassword(it.email, it.password)
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(primaryContainerLight),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(primaryContainerLight)
+            )
+            {
+                Spacer(Modifier.size(48.dp))
+
+                Text(
+                    text = "PRIJAVA",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 40.sp,
+                    color = inverseSurfaceLight,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(Modifier.size(48.dp))
+
+                Card(
+                    modifier = Modifier
+                        .padding(start = 24.dp, end = 24.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .background(inverseSurfaceLight)
+                            .padding(16.dp),
+                    ) {
+                        Text(
+                            text = "e-mail:"
+                        )
+
+                        OutlinedTextField(
+                            value = email,
+                            onValueChange = { email = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp)
+                        )
+
+                        Spacer(modifier = Modifier.size(24.dp))
+
+                        Text(
+                            text = "Lozinka:"
+                        )
+
+                        OutlinedTextField(
+                            value = password,
+                            onValueChange = { password = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp),
+                            visualTransformation = PasswordVisualTransformation()
+                        )
+
+                        Spacer(modifier = Modifier.size(24.dp))
+
+                        Button(
+                            onClick = {
+                                if (email.isNotBlank() && password.isNotBlank()) {
+                                    viewModel.signInWithEmailPassword(
+                                        email = email,
+                                        pass = password
+                                    )
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Please enter email and password",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text(
+                                text = "PRIJAVA"
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.size(24.dp))
+
+                        Text(
+                            text = "Nemaš račun?",
+                            modifier = Modifier.align(Alignment.End)
+                        )
+
+                        Spacer(modifier = Modifier.size(8.dp))
+
+                        Text(
+                            text = "REGISTRACIJA",
+                            modifier = Modifier
+                                .align(Alignment.End)
+                                .clickable {
+                                    displayRegister = true
+                                },
+                            textDecoration = androidx.compose.ui.text.style.TextDecoration.Underline,
+                        )
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RegisterScreen(
+    onRegisterClick: (RegistrationInfo) -> Unit
+) {
+    var registrationEmail by remember { mutableStateOf("") }
+    var registrationPassword by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -85,7 +214,7 @@ fun LoginScreen(
             Spacer(Modifier.size(48.dp))
 
             Text(
-                text = "PRIJAVA",
+                text = "REGISTRACIJA",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -109,12 +238,12 @@ fun LoginScreen(
                         .padding(16.dp),
                 ) {
                     Text(
-                        text = "Korisničko ime:"
+                        text = "e-mail:"
                     )
 
                     OutlinedTextField(
-                        value = email,
-                        onValueChange = { email = it },
+                        value = registrationEmail,
+                        onValueChange = { registrationEmail = it },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(8.dp)
                     )
@@ -126,19 +255,24 @@ fun LoginScreen(
                     )
 
                     OutlinedTextField(
-                        value = password,
-                        onValueChange = { password = it },
+                        value = registrationPassword,
+                        onValueChange = { registrationPassword = it },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(8.dp),
                         visualTransformation = PasswordVisualTransformation()
                     )
 
-                    Spacer(modifier = Modifier.size(48.dp))
+                    Spacer(modifier = Modifier.size(24.dp))
 
                     Button(
                         onClick = {
-                            if (email.isNotBlank() && password.isNotBlank()) {
-                                viewModel.signInWithEmailPassword(email = email, pass = password)
+                            if (registrationEmail.isNotBlank() && registrationPassword.isNotBlank()) {
+                                onRegisterClick(
+                                    RegistrationInfo(
+                                        email = registrationEmail,
+                                        password = registrationPassword
+                                    )
+                                )
                             } else {
                                 Toast.makeText(
                                     context,
@@ -151,22 +285,16 @@ fun LoginScreen(
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
-                            text = "Pošalji"
+                            text = "REGISTRIRAJ SE"
                         )
                     }
                 }
             }
         }
-
     }
 }
 
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        viewModel = LoginViewModel(),
-        modifier = Modifier,
-        onLoginSuccess = {},
-        onNavigateToSignUp = {})
-}
+data class RegistrationInfo(
+    val email: String,
+    val password: String
+)
