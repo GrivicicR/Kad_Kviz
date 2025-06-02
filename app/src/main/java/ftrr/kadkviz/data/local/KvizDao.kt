@@ -8,6 +8,9 @@ import androidx.room.Query
 @Dao
 interface KvizDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertKviz(kviz: List<KvizEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertKviz(kviz: KvizEntity)
 
     @Query("SELECT * FROM kvizentity")

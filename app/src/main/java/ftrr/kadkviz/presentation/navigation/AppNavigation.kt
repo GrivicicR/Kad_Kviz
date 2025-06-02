@@ -44,7 +44,6 @@ fun AppNavigation(
         composable<OrganizirajScreen> {
             OrganizirajScreen(
                 onSendClick = {
-                    viewModel.insertKviz(it)
                     navController.navigate(route = HomeScreen)
                 },
                 viewModel = viewModel

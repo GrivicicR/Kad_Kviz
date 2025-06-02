@@ -47,7 +47,7 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrganizirajScreen(
-    onSendClick: (KvizEntity) -> Unit,
+    onSendClick: () -> Unit,
     viewModel: KadKvizViewModel
 ) {
     var imeKviza by remember { mutableStateOf("") }
@@ -81,7 +81,8 @@ fun OrganizirajScreen(
             onDismiss = { showPopup = false },
             onConfirm = {
                 showPopup = false
-                onSendClick(storedTrivia)
+                viewModel.insertKviz(storedTrivia)
+                onSendClick()
             }
         )
     } else {
@@ -111,7 +112,7 @@ fun OrganizirajScreen(
                     TextButton(
                         onClick = {
                             openDialog = false
-                            selectedDate = datePickerState.selectedDateMillis!!
+                            datePickerState.selectedDateMillis?.let { selectedDate = it }
                             datum = millisecondsToFormattedDate(selectedDate)
                         }
                     ) {
