@@ -7,9 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ftrr.kadkviz.presentation.HomeScreen
 import ftrr.kadkviz.presentation.KadKvizViewModel
-import ftrr.kadkviz.presentation.LoginScreen
 import ftrr.kadkviz.presentation.OrganizirajScreen
 import ftrr.kadkviz.presentation.PretragaScreen
+import ftrr.kadkviz.presentation.login.LoginScreen
+import ftrr.kadkviz.presentation.login.LoginViewModel
 
 @Composable
 fun AppNavigation(
@@ -29,10 +30,15 @@ fun AppNavigation(
         }
 
         composable<LoginScreen> {
-            LoginScreen(modifier = modifier,
-                onLoginClick = {
+            val loginViewModel = LoginViewModel()
+            LoginScreen(
+                modifier = modifier,
+                onLoginSuccess = {
                     navController.navigate(route = HomeScreen)
-                })
+                },
+                viewModel = loginViewModel,
+                onNavigateToSignUp = { }
+            )
         }
 
         composable<OrganizirajScreen> {
