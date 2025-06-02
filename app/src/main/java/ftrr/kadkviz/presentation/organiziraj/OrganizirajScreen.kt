@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ftrr.kadkviz.data.local.KvizEntity
@@ -104,9 +105,6 @@ fun OrganizirajScreen(
             val datePickerState = rememberDatePickerState()
             DatePickerDialog(
                 onDismissRequest = {
-                    // Dismiss the dialog when the user clicks outside the dialog or on the back
-                    // button. If you want to disable that functionality, simply use an empty
-                    // onDismissRequest.
                     openDialog = false
                 },
                 confirmButton = {
@@ -146,7 +144,8 @@ fun OrganizirajScreen(
                     text = "ORGANIZIRAJ KVIZ",
                     modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.headlineLarge,
-                    color = inverseSurfaceLight
+                    color = inverseSurfaceLight,
+                    fontWeight = FontWeight.Bold
                 )
                 Card(
                     modifier = Modifier

@@ -1,4 +1,5 @@
 package ftrr.kadkviz.presentation.components.utils
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,11 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import ftrr.kadkviz.data.local.KvizEntity
+import ftrr.kadkviz.ui.theme.inversePrimaryLight
+import ftrr.kadkviz.ui.theme.onSurfaceVariantDark
 
 
 @Composable
@@ -43,16 +46,21 @@ fun OrganizirajPopup(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.6f)),
-        contentAlignment = Alignment.Center
+            .background(color = MaterialTheme.colorScheme.primaryContainer),
+        contentAlignment = Alignment.TopCenter
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(all = 48.dp),
-            shape = RoundedCornerShape(size = 8.dp)
+            shape = RoundedCornerShape(size = 8.dp),
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .background(color = MaterialTheme.colorScheme.inverseOnSurface)
+                    .padding(all = 24.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
                 Text(
                     text = "Ime kviza: ${kviz.name}"
                 )
@@ -81,17 +89,26 @@ fun OrganizirajPopup(
                     text = "Opis: ${kviz.description}"
                 )
 
+                Spacer(modifier = Modifier.height(24.dp))
+
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(2f)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Button(onClick = { onDismiss() }, modifier = Modifier.weight(1f)) {
-                        Text("Otkaži")
+                    TextButton(
+                        onClick = onDismiss,
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Otkaži", color = MaterialTheme.colorScheme.primary)
                     }
 
-                    Button(onClick = { onConfirm() }, modifier = Modifier.weight(1f)) {
-                        Text("Potvrdi")
+                    Button(
+                        onClick = { onConfirm() },
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("POTVRDI",
+                            fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -136,7 +153,7 @@ fun PrijaviEkipuPopup(
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
-                Spacer(modifier=Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
                 Text(
                     text = "Upišite ime ekipe za prijavu na kviz.",
@@ -145,7 +162,7 @@ fun PrijaviEkipuPopup(
                     modifier = Modifier.padding(bottom = 1.dp)
                 )
 
-                Spacer(modifier=Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
                 OutlinedTextField(
                     value = imeEkipe,
@@ -172,7 +189,9 @@ fun PrijaviEkipuPopup(
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
-                        unfocusedBorderColor = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                        unfocusedBorderColor = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                            alpha = 0.5f
+                        ),
                         cursorColor = MaterialTheme.colorScheme.primary,
                         focusedLabelColor = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                         focusedContainerColor = MaterialTheme.colorScheme.surface,
