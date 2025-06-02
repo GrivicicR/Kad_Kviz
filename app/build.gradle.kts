@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -77,4 +78,6 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+
+    implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
 }

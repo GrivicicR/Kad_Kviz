@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "381685823801",
+    "project_id": "kad-kviz",
+    "storage_bucket": "kad-kviz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381685823801:android:b54075ba9a9dcf1be550e8",
+        "android_client_info": {
+          "package_name": "ftrr.kadkviz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFsE-S5u96qDOW8uZ_ncNUR05nDf4b6dU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
