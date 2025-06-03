@@ -1,5 +1,6 @@
 package ftrr.kadkviz.presentation.home
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ftrr.kadkviz.presentation.KadKvizViewModel
@@ -39,6 +41,7 @@ fun HomeScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showRegistrationPopup by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getAllKviz()
@@ -99,7 +102,7 @@ fun HomeScreen(
             if (displayedItems.isEmpty()) {
                 Text(
                     if (searchQuery.isNotBlank()) "Nema rezultata za '$searchQuery'"
-                    else "Nema dostupnih kvizova."
+                    else "Učitavamo kvizove."
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -118,6 +121,8 @@ fun HomeScreen(
             PrijaviEkipuPopup(
                 onConfirm = { imeEkipe ->
                     showRegistrationPopup = false
+                    Toast.makeText(context, "Uspješno ste prijavili ekipu $imeEkipe!", Toast.LENGTH_LONG).show()
+
                 },
                 onDismiss = {
                     showRegistrationPopup = false

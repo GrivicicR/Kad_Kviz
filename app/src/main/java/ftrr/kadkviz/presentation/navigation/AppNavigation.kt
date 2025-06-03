@@ -21,7 +21,7 @@ fun AppNavigation(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = OrganizirajScreen
+        startDestination = LoginScreen
     ) {
         composable<HomeScreen> {
             HomeScreen(

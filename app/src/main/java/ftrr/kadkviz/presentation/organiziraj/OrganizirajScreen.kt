@@ -92,8 +92,11 @@ fun OrganizirajScreen(
         if (openTimePicker) {
             KvizTimePicker(
                 onConfirm = {
-                    openTimePicker = false
-                    vrijeme = "${it.hour}:${it.minute}"
+                    timePickerState ->
+                        openTimePicker = false
+                        val hour = timePickerState.hour
+                        val minute = timePickerState.minute
+                        vrijeme=String.format("%02d:%02d", hour, minute)
                 },
                 onDismiss = {
                     openTimePicker = false

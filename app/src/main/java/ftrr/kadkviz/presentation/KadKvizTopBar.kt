@@ -115,13 +115,6 @@ fun KadKvizTopBar(
                                     menuExpanded = false
                                 }
                             )
-                            //                        DropdownMenuItem(
-                            //                            text = { Text("Pretraga Kvizova") },
-                            //                            onClick = {
-                            //                                onMenuItemClicked("Pretraga")
-                            //                                menuExpanded = false
-                            //                            }
-                            //                        )
 
                             DropdownMenuItem(
                                 text = {
@@ -136,13 +129,6 @@ fun KadKvizTopBar(
                                 }
                             )
 
-                            //                        DropdownMenuItem(
-                            //                            text = { Text("Registracija") },
-                            //                            onClick = {
-                            //                                onMenuItemClicked("Registracija")
-                            //                                menuExpanded = false
-                            //                            }
-                            //                        )
                         }
                     }
                 }
