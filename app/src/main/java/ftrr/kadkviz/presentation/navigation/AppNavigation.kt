@@ -5,22 +5,23 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ftrr.kadkviz.presentation.home.HomeScreen
 import ftrr.kadkviz.presentation.KadKvizViewModel
-import ftrr.kadkviz.presentation.organiziraj.OrganizirajScreen
+import ftrr.kadkviz.presentation.home.HomeScreen
 import ftrr.kadkviz.presentation.login.LoginScreen
 import ftrr.kadkviz.presentation.login.LoginViewModel
+import ftrr.kadkviz.presentation.organiziraj.OrganizirajScreen
 
 @Composable
 fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: KadKvizViewModel
+    viewModel: KadKvizViewModel,
+    loginViewModel: LoginViewModel
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = OrganizirajScreen
+        startDestination = LoginScreen
     ) {
         composable<HomeScreen> {
             HomeScreen(
@@ -29,14 +30,12 @@ fun AppNavigation(
         }
 
         composable<LoginScreen> {
-            val loginViewModel = LoginViewModel()
             LoginScreen(
                 modifier = modifier,
                 onLoginSuccess = {
                     navController.navigate(route = HomeScreen)
                 },
-                viewModel = loginViewModel,
-                onNavigateToSignUp = { }
+                viewModel = loginViewModel
             )
         }
 

@@ -38,8 +38,7 @@ import ftrr.kadkviz.ui.theme.primaryContainerLight
 fun LoginScreen(
     modifier: Modifier,
     viewModel: LoginViewModel,
-    onLoginSuccess: () -> Unit,
-    onNavigateToSignUp: () -> Unit
+    onLoginSuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -58,8 +57,8 @@ fun LoginScreen(
                         "Login Successful: ${state.user.email}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    onLoginSuccess()
                 }
-                onLoginSuccess()
                 viewModel.resetUiState()
             }
 

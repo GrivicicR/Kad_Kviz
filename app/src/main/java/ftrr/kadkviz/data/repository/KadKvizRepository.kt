@@ -25,14 +25,16 @@ class KadKvizRepository(context: Context) {
     suspend fun insertKviz(kviz: KvizEntity): Boolean {
         return try {
             val reference = firestore.collection("kvizovi")
-                .add(kviz)
+                .document()
+
+            val documentId = reference.id
+            val kvizWithId = kviz.copy(id = documentId)
+            reference.set(kvizWithId)
                 .await()
 
             Log.d("Kad kviz repository", "Uspješno dodan kviz")
 
-            val documentId = reference.id
             withContext(Dispatchers.IO) {
-                val kvizWithId = kviz.copy(id = documentId)
                 kvizDao.insertKviz(kvizWithId)
             }
             true

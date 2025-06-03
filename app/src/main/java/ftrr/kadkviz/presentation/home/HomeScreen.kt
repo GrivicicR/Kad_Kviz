@@ -108,7 +108,7 @@ fun HomeScreen(
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(displayedItems, key = { it.id!! }) { kviz ->
+                    items(displayedItems, key = { it.id }) { kviz ->
                         KvizCard(
                             kviz = kviz,
                             onApplyClick = {

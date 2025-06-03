@@ -1,11 +1,9 @@
 package ftrr.kadkviz.presentation.login
 
 import android.util.Log
-import androidx.activity.result.launch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,16 +18,11 @@ class LoginViewModel : ViewModel() {
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Initial)
     val loginState: StateFlow<LoginState> = _loginState.asStateFlow()
 
-    private val _currentUser = MutableStateFlow(auth.currentUser)
-    val currentUser: StateFlow<FirebaseUser?> = _currentUser.asStateFlow()
-
     init {
         auth.addAuthStateListener { firebaseAuth ->
-            _currentUser.value = firebaseAuth.currentUser
-
-            if (firebaseAuth.currentUser == null && _loginState.value is LoginState.Success) {
-                _loginState.value = LoginState.Success(null)
-            } else if (firebaseAuth.currentUser != null && _loginState.value is LoginState.Loading) {
+            if (firebaseAuth.currentUser == null) {
+                _loginState.value = LoginState.Initial
+            } else if (firebaseAuth.currentUser != null) {
                 _loginState.value = LoginState.Success(firebaseAuth.currentUser)
             }
         }
@@ -42,7 +35,6 @@ class LoginViewModel : ViewModel() {
             try {
                 val result = auth.createUserWithEmailAndPassword(email, pass).await()
                 _loginState.value = LoginState.Success(result.user)
-                _currentUser.value = result.user
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error(e.message ?: "Sign up failed")
                 Log.e("AuthViewModel", "Sign Up Error: ${e.message}", e)
@@ -56,7 +48,6 @@ class LoginViewModel : ViewModel() {
             try {
                 val result = auth.signInWithEmailAndPassword(email, pass).await()
                 _loginState.value = LoginState.Success(result.user)
-                _currentUser.value = result.user
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error(e.message ?: "Sign in failed")
                 Log.e("AuthViewModel", "Sign In Error: ${e.message}", e)
@@ -66,7 +57,6 @@ class LoginViewModel : ViewModel() {
 
     fun signOut() {
         viewModelScope.launch {
-            // _uiState.value = AuthUiState.Loading // Optional: show loading during sign out
             try {
                 auth.signOut()
                 _loginState.value = LoginState.Initial

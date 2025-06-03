@@ -44,7 +44,11 @@ fun KadKvizApp() {
                             "Pretraga" -> navController.navigate(route = PretragaScreen)
                             "Prijava" -> {
                                 loginViewModel.signOut()
-                                navController.navigate(route = LoginScreen)
+                                navController.navigate(route = LoginScreen) {
+                                    popUpTo(LoginScreen) {
+                                        inclusive = true
+                                    }
+                                }
                             }
 
                             else -> navController.navigate(route = HomeScreen)
@@ -64,7 +68,8 @@ fun KadKvizApp() {
             AppNavigation(
                 navController = navController,
                 modifier = Modifier.padding(innerPadding),
-                viewModel = viewModel
+                viewModel = viewModel,
+                loginViewModel = loginViewModel
             )
         }
     }
