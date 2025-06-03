@@ -8,7 +8,6 @@ import androidx.navigation.compose.composable
 import ftrr.kadkviz.presentation.home.HomeScreen
 import ftrr.kadkviz.presentation.KadKvizViewModel
 import ftrr.kadkviz.presentation.organiziraj.OrganizirajScreen
-import ftrr.kadkviz.presentation.home.PretragaScreen
 import ftrr.kadkviz.presentation.login.LoginScreen
 import ftrr.kadkviz.presentation.login.LoginViewModel
 
@@ -48,10 +47,6 @@ fun AppNavigation(
                 },
                 viewModel = viewModel
             )
-        }
-
-        composable<PretragaScreen> {
-            PretragaScreen(modifier)
         }
     }
 }

@@ -33,6 +33,7 @@ import ftrr.kadkviz.presentation.KadKvizViewModel
 import ftrr.kadkviz.presentation.cards.KvizCard
 import ftrr.kadkviz.presentation.components.utils.PrijaviEkipuPopup
 import ftrr.kadkviz.ui.theme.primaryContainerLight
+import kotlin.math.sin
 
 @Composable
 fun HomeScreen(
@@ -78,7 +79,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
-                placeholder = { Text("Pretraži kvizove...") },
+                placeholder = { Text("Unesite naziv kviza ili lokaciju") },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Search,
@@ -87,14 +88,15 @@ fun HomeScreen(
                     )
                 },
                 singleLine = true,
-                shape = RoundedCornerShape(28.dp),
+                shape = RoundedCornerShape(20.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                        alpha = 0.5f
+                    ),
                     cursorColor = MaterialTheme.colorScheme.primary,
-                    focusedLabelColor = MaterialTheme.colorScheme.primary,
-                    focusedContainerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 )
             )
 

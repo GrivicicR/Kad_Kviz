@@ -23,6 +23,7 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
@@ -179,36 +180,55 @@ fun OrganizirajScreen(
                             .background(inverseSurfaceLight)
                             .padding(16.dp)
                     ) {
-                        Text(
-                            text = "Ime kviza:"
-                        )
 
                         OutlinedTextField(
                             value = imeKviza,
                             onValueChange = { imeKviza = it;
                                             if (imeKvizaError) imeKvizaError=false},
                             modifier = Modifier.fillMaxWidth(),
+                            label={ Text("Ime kviza")},
+                            placeholder={ Text("Unesite ime kviza")},
+                            singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             isError=imeKvizaError,
                             supportingText = {
-                                if (imeKvizaError) Text (errorMessage)}
+                                if (imeKvizaError) Text (errorMessage)},
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = if (imeKvizaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = if (imeKvizaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                    alpha = 0.5f
+                                ),
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                                focusedLabelColor = if (imeKvizaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                            )
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
-
-                        Text(
-                            text = "Lokacija:"
-                        )
 
                         OutlinedTextField(
                             value = lokacija,
                             onValueChange = { lokacija = it;
                                             if (lokacijaError) lokacijaError=false},
                             modifier = Modifier.fillMaxWidth(),
+                            label={ Text("Lokacija")},
+                            placeholder={ Text("Unesite lokaciju kviza")},
+                            singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             isError=lokacijaError,
                             supportingText = {
-                                if (lokacijaError) Text (errorMessage)}
+                                if (lokacijaError) Text (errorMessage)},
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = if (lokacijaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = if (lokacijaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                    alpha = 0.5f
+                                ),
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                                focusedLabelColor = if (lokacijaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                            )
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
@@ -285,55 +305,82 @@ fun OrganizirajScreen(
 
                         Spacer(modifier = Modifier.size(24.dp))
 
-                        Text(
-                            text = "Iznos kotizacije:"
-                        )
-
                         OutlinedTextField(
                             value = iznosKotizacije,
                             onValueChange = { iznosKotizacije = it;
                                             if (iznosKotizacijeError) iznosKotizacijeError=false},
                             modifier = Modifier.fillMaxWidth(),
+                            label={ Text("Iznos kotizacije")},
+                            placeholder={ Text("Unesite iznos kotizacije")},
+                            singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             isError = iznosKotizacijeError,
                             supportingText = {
-                                if (iznosKotizacijeError) Text (errorMessage)}
+                                if (iznosKotizacijeError) Text (errorMessage)},
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = if (iznosKotizacijeError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = if (iznosKotizacijeError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                    alpha = 0.5f
+                                ),
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                                focusedLabelColor = if (iznosKotizacijeError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                            )
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
-
-                        Text(
-                            text = "Broj članova u ekipi:"
-                        )
 
                         OutlinedTextField(
                             value = brojClanova,
                             onValueChange = { brojClanova = it;
                                 if (brojClanovaError) brojClanovaError=false},
                             modifier = Modifier.fillMaxWidth(),
+                            label={ Text("Broj članova")},
+                            placeholder={ Text("Unesite broj članova u ekipi")},
+                            singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             isError = brojClanovaError,
                             supportingText = {
-                                if (brojClanovaError) Text (errorMessage)}
+                                if (brojClanovaError) Text (errorMessage)},
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = if (brojClanovaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = if (brojClanovaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                    alpha = 0.5f
+                                ),
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                                focusedLabelColor = if (brojClanovaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                            )
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
-
-                        Text(
-                            text = "Opis:"
-                        )
 
                         OutlinedTextField(
                             value = opis,
                             onValueChange = { opis = it;
                                 if (opisError) opisError=false},
                             modifier = Modifier.fillMaxWidth(),
+                            label={ Text("Opis")},
+                            placeholder={ Text("Unesite opis kviza")},
+                            singleLine = false,
                             shape = RoundedCornerShape(8.dp),
                             isError = opisError,
                             supportingText = {
-                                if (opisError) Text (errorMessage)}
+                                if (opisError) Text (errorMessage)},
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = if (opisError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = if (opisError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                    alpha = 0.5f
+                                ),
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                                focusedLabelColor = if (opisError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                            )
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
