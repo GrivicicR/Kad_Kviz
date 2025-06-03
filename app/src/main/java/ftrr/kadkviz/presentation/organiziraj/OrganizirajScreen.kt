@@ -1,11 +1,13 @@
 package ftrr.kadkviz.presentation.organiziraj
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -14,6 +16,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -34,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -59,6 +63,16 @@ fun OrganizirajScreen(
     var iznosKotizacije by remember { mutableStateOf("") }
     var brojClanova by remember { mutableStateOf("") }
     var opis by remember { mutableStateOf("") }
+
+    //Error
+    var imeKvizaError by remember { mutableStateOf(false) }
+    var lokacijaError by remember { mutableStateOf(false) }
+    var datumError by remember { mutableStateOf(false) }
+    var vrijemeError by remember { mutableStateOf(false) }
+    var iznosKotizacijeError by remember { mutableStateOf(false) }
+    var brojClanovaError by remember { mutableStateOf(false) }
+    var opisError by remember { mutableStateOf(false) }
+
     var storedTrivia by remember {
         mutableStateOf(
             KvizEntity(
@@ -76,6 +90,8 @@ fun OrganizirajScreen(
     var showPopup by remember { mutableStateOf(false) }
     var openTimePicker by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableLongStateOf(0L) }
+
+    val errorMessage = "Polje je obavezno."
 
     if (showPopup) {
         OrganizirajPopup(
@@ -97,6 +113,7 @@ fun OrganizirajScreen(
                         val hour = timePickerState.hour
                         val minute = timePickerState.minute
                         vrijeme=String.format("%02d:%02d", hour, minute)
+                        vrijemeError = false
                 },
                 onDismiss = {
                     openTimePicker = false
@@ -116,6 +133,7 @@ fun OrganizirajScreen(
                             openDialog = false
                             datePickerState.selectedDateMillis?.let { selectedDate = it }
                             datum = millisecondsToFormattedDate(selectedDate)
+                            datumError = false
                         }
                     ) {
                         Text("OK")
@@ -135,6 +153,7 @@ fun OrganizirajScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .imePadding()
                 .background(primaryContainerLight)
                 .verticalScroll(scrollState),
             contentAlignment = Alignment.Center
@@ -166,9 +185,13 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = imeKviza,
-                            onValueChange = { imeKviza = it },
+                            onValueChange = { imeKviza = it;
+                                            if (imeKvizaError) imeKvizaError=false},
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(8.dp),
+                            isError=imeKvizaError,
+                            supportingText = {
+                                if (imeKvizaError) Text (errorMessage)}
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
@@ -179,9 +202,13 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = lokacija,
-                            onValueChange = { lokacija = it },
+                            onValueChange = { lokacija = it;
+                                            if (lokacijaError) lokacijaError=false},
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(8.dp),
+                            isError=lokacijaError,
+                            supportingText = {
+                                if (lokacijaError) Text (errorMessage)}
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
@@ -191,18 +218,32 @@ fun OrganizirajScreen(
                         )
 
                         Button(
-                            modifier = Modifier.fillMaxWidth(),
                             onClick = { openDialog = true },
-                            shape = RoundedCornerShape(8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp),
+                            colors = ButtonDefaults.buttonColors()
                         ) {
-                            if (selectedDate == 0L) {
+                            if (datum.isBlank()) {
                                 Text(
-                                    text = "Odaberi datum"
+                                    text = "Odaberi datum",
+                                    color = if (datumError) MaterialTheme.colorScheme.inverseOnSurface else MaterialTheme.colorScheme.onPrimary
                                 )
-                            } else
+                            } else {
                                 Text(
-                                    text = millisecondsToFormattedDate(selectedDate)
+                                    text = datum,
+                                    color = if (datumError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimary
                                 )
+                            }
+                        }
+
+                        if (datumError) {
+                            Text(
+                                text = "Datum je obavezan.",
+                                color = MaterialTheme.colorScheme.error,
+                                style=MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(start = 16.dp,top=4.dp)
+                            )
                         }
 
                         Spacer(modifier = Modifier.size(24.dp))
@@ -212,14 +253,33 @@ fun OrganizirajScreen(
                         )
 
                         Button(
-                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { openTimePicker = true },
+                            modifier = Modifier
+                                .fillMaxWidth(),
                             shape = RoundedCornerShape(8.dp),
-                            onClick = {
-                                openTimePicker = true
-                            }
+                            colors = ButtonDefaults.buttonColors()
                         ) {
+                            if (vrijeme == "Odaberi vrijeme" || vrijeme.isBlank()) {
+                                Text(
+                                    text = "Odaberi vrijeme",
+                                    color = if (vrijemeError) MaterialTheme.colorScheme.inverseOnSurface
+                                    else MaterialTheme.colorScheme.onPrimary
+                                )
+                            } else {
+                                Text(
+                                    text = vrijeme,
+                                    color = if (vrijemeError) MaterialTheme.colorScheme.error
+                                    else MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+
+                        if (vrijemeError) {
                             Text(
-                                text = vrijeme
+                                text= "Vrijeme je obavezno.",
+                                color=MaterialTheme.colorScheme.error,
+                                style=MaterialTheme.typography.bodySmall,
+                                modifier=Modifier.padding(start=16.dp,top=4.dp)
                             )
                         }
 
@@ -231,10 +291,14 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = iznosKotizacije,
-                            onValueChange = { iznosKotizacije = it },
+                            onValueChange = { iznosKotizacije = it;
+                                            if (iznosKotizacijeError) iznosKotizacijeError=false},
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            isError = iznosKotizacijeError,
+                            supportingText = {
+                                if (iznosKotizacijeError) Text (errorMessage)}
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
@@ -245,10 +309,14 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = brojClanova,
-                            onValueChange = { brojClanova = it },
+                            onValueChange = { brojClanova = it;
+                                if (brojClanovaError) brojClanovaError=false},
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            isError = brojClanovaError,
+                            supportingText = {
+                                if (brojClanovaError) Text (errorMessage)}
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
@@ -259,15 +327,69 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = opis,
-                            onValueChange = { opis = it },
+                            onValueChange = { opis = it;
+                                if (opisError) opisError=false},
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(8.dp),
+                            isError = opisError,
+                            supportingText = {
+                                if (opisError) Text (errorMessage)}
                         )
 
                         Spacer(modifier = Modifier.size(24.dp))
 
-                        Button(
-                            onClick = {
+                        Button(onClick = {
+                            var hasErrors = false
+
+                            if (imeKviza.isBlank()) {
+                                imeKvizaError = true
+                                hasErrors = true
+                            } else {
+                                imeKvizaError = false
+                            }
+
+                            if (lokacija.isBlank()) {
+                                lokacijaError = true
+                                hasErrors = true
+                            } else {
+                                lokacijaError = false
+                            }
+
+                            if (datum.isBlank() || selectedDate == 0L) {
+                                datumError = true
+                                hasErrors = true
+                            } else {
+                                datumError = false
+                            }
+
+                            if (vrijeme == "Odaberi vrijeme" || vrijeme.isBlank()) {
+                                vrijemeError = true
+                                hasErrors = true
+                            } else {
+                                vrijemeError = false
+                            }
+                            if (iznosKotizacije.isBlank()) {
+                                iznosKotizacijeError = true
+                                hasErrors = true
+                            } else {
+                                iznosKotizacijeError = false
+                            }
+
+                            if (brojClanova.isBlank()) {
+                                brojClanovaError = true
+                                hasErrors = true
+                            } else {
+                                brojClanovaError = false
+                            }
+
+                            if (opis.isBlank()) {
+                                opisError = true
+                                hasErrors = true
+                            } else {
+                                opisError = false
+                            }
+
+                            if (!hasErrors) {
                                 showPopup = true
                                 storedTrivia = KvizEntity(
                                     name = imeKviza,
@@ -278,6 +400,7 @@ fun OrganizirajScreen(
                                     teamSize = brojClanova,
                                     description = opis
                                 )
+                            }
                             },
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             shape = RoundedCornerShape(8.dp)
