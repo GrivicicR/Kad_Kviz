@@ -1,7 +1,6 @@
 package ftrr.kadkviz.presentation.organiziraj
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -108,13 +106,12 @@ fun OrganizirajScreen(
 
         if (openTimePicker) {
             KvizTimePicker(
-                onConfirm = {
-                    timePickerState ->
-                        openTimePicker = false
-                        val hour = timePickerState.hour
-                        val minute = timePickerState.minute
-                        vrijeme=String.format("%02d:%02d", hour, minute)
-                        vrijemeError = false
+                onConfirm = { timePickerState ->
+                    openTimePicker = false
+                    val hour = timePickerState.hour
+                    val minute = timePickerState.minute
+                    vrijeme = String.format("%02d:%02d", hour, minute)
+                    vrijemeError = false
                 },
                 onDismiss = {
                     openTimePicker = false
@@ -183,16 +180,19 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = imeKviza,
-                            onValueChange = { imeKviza = it;
-                                            if (imeKvizaError) imeKvizaError=false},
+                            onValueChange = {
+                                imeKviza = it;
+                                if (imeKvizaError) imeKvizaError = false
+                            },
                             modifier = Modifier.fillMaxWidth(),
-                            label={ Text("Ime kviza")},
-                            placeholder={ Text("Unesite ime kviza")},
+                            label = { Text("Ime kviza") },
+                            placeholder = { Text("Unesite ime kviza") },
                             singleLine = true,
                             shape = RoundedCornerShape(8.dp),
-                            isError=imeKvizaError,
+                            isError = imeKvizaError,
                             supportingText = {
-                                if (imeKvizaError) Text (errorMessage)},
+                                if (imeKvizaError) Text(errorMessage)
+                            },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = if (imeKvizaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = if (imeKvizaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
@@ -209,16 +209,19 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = lokacija,
-                            onValueChange = { lokacija = it;
-                                            if (lokacijaError) lokacijaError=false},
+                            onValueChange = {
+                                lokacija = it;
+                                if (lokacijaError) lokacijaError = false
+                            },
                             modifier = Modifier.fillMaxWidth(),
-                            label={ Text("Lokacija")},
-                            placeholder={ Text("Unesite lokaciju kviza")},
+                            label = { Text("Lokacija") },
+                            placeholder = { Text("Unesite lokaciju kviza") },
                             singleLine = true,
                             shape = RoundedCornerShape(8.dp),
-                            isError=lokacijaError,
+                            isError = lokacijaError,
                             supportingText = {
-                                if (lokacijaError) Text (errorMessage)},
+                                if (lokacijaError) Text(errorMessage)
+                            },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = if (lokacijaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = if (lokacijaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
@@ -261,8 +264,8 @@ fun OrganizirajScreen(
                             Text(
                                 text = "Datum je obavezan.",
                                 color = MaterialTheme.colorScheme.error,
-                                style=MaterialTheme.typography.bodySmall,
-                                modifier = Modifier.padding(start = 16.dp,top=4.dp)
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
                             )
                         }
 
@@ -296,10 +299,10 @@ fun OrganizirajScreen(
 
                         if (vrijemeError) {
                             Text(
-                                text= "Vrijeme je obavezno.",
-                                color=MaterialTheme.colorScheme.error,
-                                style=MaterialTheme.typography.bodySmall,
-                                modifier=Modifier.padding(start=16.dp,top=4.dp)
+                                text = "Vrijeme je obavezno.",
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
                             )
                         }
 
@@ -307,17 +310,20 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = iznosKotizacije,
-                            onValueChange = { iznosKotizacije = it;
-                                            if (iznosKotizacijeError) iznosKotizacijeError=false},
+                            onValueChange = {
+                                iznosKotizacije = it;
+                                if (iznosKotizacijeError) iznosKotizacijeError = false
+                            },
                             modifier = Modifier.fillMaxWidth(),
-                            label={ Text("Iznos kotizacije")},
-                            placeholder={ Text("Unesite iznos kotizacije")},
+                            label = { Text("Iznos kotizacije") },
+                            placeholder = { Text("Unesite iznos kotizacije") },
                             singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             isError = iznosKotizacijeError,
                             supportingText = {
-                                if (iznosKotizacijeError) Text (errorMessage)},
+                                if (iznosKotizacijeError) Text(errorMessage)
+                            },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = if (iznosKotizacijeError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = if (iznosKotizacijeError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
@@ -334,17 +340,20 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = brojClanova,
-                            onValueChange = { brojClanova = it;
-                                if (brojClanovaError) brojClanovaError=false},
+                            onValueChange = {
+                                brojClanova = it;
+                                if (brojClanovaError) brojClanovaError = false
+                            },
                             modifier = Modifier.fillMaxWidth(),
-                            label={ Text("Broj članova")},
-                            placeholder={ Text("Unesite broj članova u ekipi")},
+                            label = { Text("Broj članova") },
+                            placeholder = { Text("Unesite broj članova u ekipi") },
                             singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             isError = brojClanovaError,
                             supportingText = {
-                                if (brojClanovaError) Text (errorMessage)},
+                                if (brojClanovaError) Text(errorMessage)
+                            },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = if (brojClanovaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = if (brojClanovaError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
@@ -361,16 +370,19 @@ fun OrganizirajScreen(
 
                         OutlinedTextField(
                             value = opis,
-                            onValueChange = { opis = it;
-                                if (opisError) opisError=false},
+                            onValueChange = {
+                                opis = it;
+                                if (opisError) opisError = false
+                            },
                             modifier = Modifier.fillMaxWidth(),
-                            label={ Text("Opis")},
-                            placeholder={ Text("Unesite opis kviza")},
+                            label = { Text("Opis") },
+                            placeholder = { Text("Unesite opis kviza") },
                             singleLine = false,
                             shape = RoundedCornerShape(8.dp),
                             isError = opisError,
                             supportingText = {
-                                if (opisError) Text (errorMessage)},
+                                if (opisError) Text(errorMessage)
+                            },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = if (opisError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = if (opisError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
@@ -385,69 +397,70 @@ fun OrganizirajScreen(
 
                         Spacer(modifier = Modifier.size(24.dp))
 
-                        Button(onClick = {
-                            var hasErrors = false
+                        Button(
+                            onClick = {
+                                var hasErrors = false
 
-                            if (imeKviza.isBlank()) {
-                                imeKvizaError = true
-                                hasErrors = true
-                            } else {
-                                imeKvizaError = false
-                            }
+                                if (imeKviza.isBlank()) {
+                                    imeKvizaError = true
+                                    hasErrors = true
+                                } else {
+                                    imeKvizaError = false
+                                }
 
-                            if (lokacija.isBlank()) {
-                                lokacijaError = true
-                                hasErrors = true
-                            } else {
-                                lokacijaError = false
-                            }
+                                if (lokacija.isBlank()) {
+                                    lokacijaError = true
+                                    hasErrors = true
+                                } else {
+                                    lokacijaError = false
+                                }
 
-                            if (datum.isBlank() || selectedDate == 0L) {
-                                datumError = true
-                                hasErrors = true
-                            } else {
-                                datumError = false
-                            }
+                                if (datum.isBlank() || selectedDate == 0L) {
+                                    datumError = true
+                                    hasErrors = true
+                                } else {
+                                    datumError = false
+                                }
 
-                            if (vrijeme == "Odaberi vrijeme" || vrijeme.isBlank()) {
-                                vrijemeError = true
-                                hasErrors = true
-                            } else {
-                                vrijemeError = false
-                            }
-                            if (iznosKotizacije.isBlank()) {
-                                iznosKotizacijeError = true
-                                hasErrors = true
-                            } else {
-                                iznosKotizacijeError = false
-                            }
+                                if (vrijeme == "Odaberi vrijeme" || vrijeme.isBlank()) {
+                                    vrijemeError = true
+                                    hasErrors = true
+                                } else {
+                                    vrijemeError = false
+                                }
+                                if (iznosKotizacije.isBlank()) {
+                                    iznosKotizacijeError = true
+                                    hasErrors = true
+                                } else {
+                                    iznosKotizacijeError = false
+                                }
 
-                            if (brojClanova.isBlank()) {
-                                brojClanovaError = true
-                                hasErrors = true
-                            } else {
-                                brojClanovaError = false
-                            }
+                                if (brojClanova.isBlank()) {
+                                    brojClanovaError = true
+                                    hasErrors = true
+                                } else {
+                                    brojClanovaError = false
+                                }
 
-                            if (opis.isBlank()) {
-                                opisError = true
-                                hasErrors = true
-                            } else {
-                                opisError = false
-                            }
+                                if (opis.isBlank()) {
+                                    opisError = true
+                                    hasErrors = true
+                                } else {
+                                    opisError = false
+                                }
 
-                            if (!hasErrors) {
-                                showPopup = true
-                                storedTrivia = KvizEntity(
-                                    name = imeKviza,
-                                    location = lokacija,
-                                    date = datum,
-                                    time = vrijeme,
-                                    entryFee = iznosKotizacije,
-                                    teamSize = brojClanova,
-                                    description = opis
-                                )
-                            }
+                                if (!hasErrors) {
+                                    showPopup = true
+                                    storedTrivia = KvizEntity(
+                                        name = imeKviza,
+                                        location = lokacija,
+                                        date = datum,
+                                        time = vrijeme,
+                                        entryFee = iznosKotizacije,
+                                        teamSize = brojClanova,
+                                        description = opis
+                                    )
+                                }
                             },
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             shape = RoundedCornerShape(8.dp)

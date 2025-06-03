@@ -29,11 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ftrr.kadkviz.data.local.EkipaEntity
+import ftrr.kadkviz.data.local.KvizEntity
 import ftrr.kadkviz.presentation.KadKvizViewModel
 import ftrr.kadkviz.presentation.cards.KvizCard
 import ftrr.kadkviz.presentation.components.utils.PrijaviEkipuPopup
 import ftrr.kadkviz.ui.theme.primaryContainerLight
-import kotlin.math.sin
 
 @Composable
 fun HomeScreen(
@@ -41,11 +42,13 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showRegistrationPopup by remember { mutableStateOf(false) }
+    var selectedKviz by remember { mutableStateOf<KvizEntity?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getAllKviz()
+        viewModel.getAllTeams()
     }
 
     val displayedItems = remember(searchQuery, state.triviaList) {
@@ -113,6 +116,7 @@ fun HomeScreen(
                             kviz = kviz,
                             onApplyClick = {
                                 showRegistrationPopup = true
+                                selectedKviz = kviz
                             }
                         )
                     }
@@ -123,7 +127,17 @@ fun HomeScreen(
             PrijaviEkipuPopup(
                 onConfirm = { imeEkipe ->
                     showRegistrationPopup = false
-                    Toast.makeText(context, "Uspješno ste prijavili ekipu $imeEkipe!", Toast.LENGTH_LONG).show()
+                    viewModel.addTeamToQuiz(
+                        EkipaEntity(
+                            ime = imeEkipe,
+                            kvizId = selectedKviz?.id.toString()
+                        )
+                    )
+                    Toast.makeText(
+                        context,
+                        "Uspješno ste prijavili ekipu $imeEkipe!",
+                        Toast.LENGTH_LONG
+                    ).show()
 
                 },
                 onDismiss = {
